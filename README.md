@@ -1,7 +1,7 @@
 # Swashbuckle ASP.NET Versioning Shim
 [![Build status](https://ci.appveyor.com/api/projects/status/wjwi5jpn7oov6i96?svg=true)](https://ci.appveyor.com/project/rh072005/swashbuckleaspnetversioningshim)
 
-This library aids the use of [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle) and [ASP NET Web API Versioning](https://github.com/Microsoft/aspnet-api-versioning) together and started from my attempt at resolving [Swashbuckle.AspNetCore issue 244](https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/244)
+This library aids the use of [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) and [ASP NET Web API Versioning](https://github.com/Microsoft/aspnet-api-versioning) together and started from my attempt at resolving [Swashbuckle.AspNetCore issue 244](https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/244)
 
 Note: Development has been carried out with [URL path versioning](https://github.com/Microsoft/aspnet-api-versioning/wiki/Versioning-via-the-URL-Path) in mind. I've not tested it with the other versioning conventions that API versioning provide.
 
