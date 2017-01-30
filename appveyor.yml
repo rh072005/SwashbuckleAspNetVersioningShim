@@ -4,6 +4,9 @@ branches:
 
 init:
   - git config --global core.autocrlf input
+  
+image: 
+  - Visual Studio 2017 RC
 
 cache:
   - src\packages -> **\packages.config
