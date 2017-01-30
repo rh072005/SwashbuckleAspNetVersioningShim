@@ -1,0 +1,31 @@
+branches:
+  only:
+    - master
+
+init:
+  - git config --global core.autocrlf input
+
+cache:
+  - src\packages -> **\packages.config
+  - tools -> build.cake
+
+build_script: 
+  - ps: .\build.ps1
+
+after_build:
+  - ps: $env:ARTIFACT_NAME = if($env:APPVEYOR_REPO_TAG_NAME){$env:APPVEYOR_REPO_TAG_NAME} else {"$($env:APPVEYOR_REPO_COMMIT)-pre"}
+
+artifacts: 
+  - path: artifacts
+    name: SwashbuckleAspNetVersioningShim_%ARTIFACT_NAME%
+
+deploy:
+  - provider: GitHub
+    description: Release of SwashbuckleAspNetVersioningShim version %ARTIFACT_NAME%
+    auth_token:
+      secure: ehoWWS0WhJ+2JVbx23dFVeQUT8w6Sz+lrimWmBGIvNsgTM6z7AlTvdPuI33Jf5Dj
+    artifact: /.*\.nupkg/
+    draft: false
+    prerelease: true
+    on:
+      appveyor_repo_tag: true
