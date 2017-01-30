@@ -95,11 +95,11 @@ Task("Package")
 		Information("Running Packaging...");
 		var nuGetPackSettings   = new NuGetPackSettings {
 									 Id                      = "SwashbuckleAspNetVersioningShim",
-									 Version                 = string.Format("{0}-pre", versionInfo.SemVer),
-									 Title                   = "Shim",
+									 Version                 = versionInfo.SemVer,
+									 Title                   = "Swashbuckle ASP.NET Versioning Shim",
 									 Authors                 = new[] {"Ryan Hird"},
-									 Description             = "Shim",
-									 ProjectUrl              = new Uri("https://github.com/rh072005/Shim/"),
+									 Description             = "Library to aid the combined use of Swashbuckle and ASP NET API Versioning",
+									 ProjectUrl              = new Uri("https://github.com/rh072005/SwashbuckleAspNetVersioningShim"),
 									 Copyright               = "Ryan Hird 2017",
 									 RequireLicenseAcceptance= false,
 									 Symbols                 = false,
