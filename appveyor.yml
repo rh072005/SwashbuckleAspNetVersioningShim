@@ -32,3 +32,7 @@ deploy:
     prerelease: true
     on:
       appveyor_repo_tag: true
+  - provider: NuGet
+    server: https://www.myget.org/F/rh072005/api/v2/package
+    api_key:
+      secure: xslJdZlEXsrdzucocErMW6yYuLA4rkFLpnrSHGS7AS0rHwvq5ZkxW4l28RVOJiwI
