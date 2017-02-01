@@ -121,6 +121,7 @@ _TeamCity*
 
 # NCrunch
 *.ncrunchproject
+*.ncrunchsolution
 _NCrunch_*
 .*crunch*.local.xml
 nCrunchTemp_*
