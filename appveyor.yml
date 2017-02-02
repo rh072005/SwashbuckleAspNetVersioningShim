@@ -26,7 +26,7 @@ deploy:
   - provider: GitHub
     description: Release of SwashbuckleAspNetVersioningShim version %ARTIFACT_NAME%
     auth_token:
-      secure: ehoWWS0WhJ+2JVbx23dFVeQUT8w6Sz+lrimWmBGIvNsgTM6z7AlTvdPuI33Jf5Dj
+      secure: 5lhtYmrK8GyagLOZFAIKcCnLrYU62nz3nYYwdb4xWobiTmZ92qfAn3+7g+kmasCf
     artifact: /.*\.nupkg/
     draft: false
     prerelease: true
