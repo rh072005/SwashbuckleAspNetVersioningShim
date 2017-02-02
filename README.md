@@ -17,43 +17,33 @@ Note: Development has been carried out with [URL path versioning](https://github
 ```csharp
 using SwashbuckleAspNetVersioningShim;
 ```
-
-```csharp
-public class Startup
-{
-    private IMvcBuilder _mvcBuilder;
-    private SwaggerVersioner _swaggerVersioning = new SwaggerVersioner();
-    ...
-```
-
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-    // This replaces services.AddMvc(); because we need access to IMvcBuilder's ApplicationPartManager later on
-    _mvcBuilder = services.AddMvc(c =>
-        c.Conventions.Add(new ApiExplorerGroupPerVersionConvention(_swaggerVersioning))
-    );
+    // This replaces services.AddMvc(); because we need access to IMvcBuilder's ApplicationPartManager below
+    var mvcBuilder = services.AddMvc();
 
     services.AddApiVersioning();
     services.AddSwaggerGen(c =>
     {
-        _swaggerVersioning.ConfigureSwaggerGen(c, _mvcBuilder.PartManager);
+        SwaggerVersioner.ConfigureSwaggerGen(c, mvcBuilder.PartManager);
     });
     ...
 ```
 
 ```csharp
-public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+//Note the change of method signature to include injection of ApplicationPartManager
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ApplicationPartManager partManager)
 {
     ...
     app.UseSwagger();
     app.UseSwaggerUi(c =>
     {
-        _swaggerVersioning.ConfigureSwaggerUi(c, _mvcBuilder.PartManager);
+        SwaggerVersioner.ConfigureSwaggerUi(c, partManager);
     });
     ...
 }
-```
+```   
 
 All being well you can now continue to use ASP NET Web API Versioning as per it's documentation.
 As a minimum your web API controller will want an ApiVersionAttribute and a RouteAttribute.

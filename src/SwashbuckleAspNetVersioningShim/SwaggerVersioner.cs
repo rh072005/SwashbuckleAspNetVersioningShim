@@ -1,50 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
+using Swashbuckle.AspNetCore.SwaggerUi;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 
 namespace SwashbuckleAspNetVersioningShim
 {
-    public class SwaggerVersioner
+    public static class SwaggerVersioner
     {
-        public bool SetDocInclusions(string version, ApiDescription apiDescription)
+        public static void ConfigureSwaggerGen(SwaggerGenOptions swaggerOptions, ApplicationPartManager partManager)
         {
-            var versions = apiDescription.GroupName?.Split('#');
-            if (versions == null)
+            var allVersions = GetAllApiVersions(partManager);
+            foreach (var version in allVersions)
             {
-                return false;
-            }
-            if (!versions.Contains(version.Replace("v", "")))
-            {
-                return false;
+                swaggerOptions.SwaggerDoc(string.Format($"v{version}"), new Info { Version = version, Title = string.Format($"API Version {version}") });
             }
 
-            var versionRegex = new Regex("^(v\\d|v{version})$");
-            var values = apiDescription.RelativePath.Split('/').Select(v => versionRegex.Replace(v, version));
-            apiDescription.RelativePath = string.Join("/", values);
-            var versionParameter = apiDescription.ParameterDescriptions.SingleOrDefault(p => p.Name == "version");
-
-            if (versionParameter != null)
+            swaggerOptions.DocInclusionPredicate((version, apiDescription) =>
             {
-                apiDescription.ParameterDescriptions.Remove(versionParameter);
-            }
+                var versions = apiDescription.ControllerAttributes().OfType<ApiVersionAttribute>().SelectMany(attr => attr.Versions).ToList();
+                return versions.Any(v => $"v{v.ToString()}" == version);
+            });
 
-            foreach (var parameter in apiDescription.ParameterDescriptions)
-            {
-                parameter.Name = char.ToLowerInvariant(parameter.Name[0]) + parameter.Name.Substring(1);
-            }
-
-            return true;
+            swaggerOptions.OperationFilter<RemoveVersionParametersOperationFilter>();
+            swaggerOptions.DocumentFilter<SetVersionInPathsDocumentFilter>();
         }
 
-        public List<string> GetAllApiVersions(ApplicationPartManager partManager)
+        public static List<string> GetAllApiVersions(ApplicationPartManager partManager)
         {
             var controllerFeature = new ControllerFeature();
             partManager.PopulateFeature(controllerFeature);
@@ -55,34 +41,12 @@ namespace SwashbuckleAspNetVersioningShim
             return versionList;
         }
 
-        public List<string> GetApiVersionsForController(TypeInfo controllerTypeInfo)
-        {
-            var versionList = new List<string>();
-            var versionAttributes = controllerTypeInfo.GetCustomAttributes<ApiVersionAttribute>();
-            versionList = versionAttributes.Select(x => x.Versions.FirstOrDefault().ToString()).ToList();
-            return versionList;
-        }
-
-        public void ConfigureSwaggerGen(SwaggerGenOptions options, ApplicationPartManager partManager)
-        {
-            var versions = GetAllApiVersions(partManager);
-            options.DocInclusionPredicate((version, apiDescription) =>
-            {
-                return SetDocInclusions(version, apiDescription);
-            });
-
-            foreach (var version in versions)
-            {
-                options.SwaggerDoc(string.Format($"v{version}"), new Info { Version = version, Title = string.Format($"API V{version}") });
-            }
-        }
-
-        public void ConfigureSwaggerUi(Swashbuckle.AspNetCore.SwaggerUi.SwaggerUiOptions c, ApplicationPartManager partManager)
+        public static void ConfigureSwaggerUi(SwaggerUiOptions swaggerUiOptions, ApplicationPartManager partManager)
         {
             var versions = GetAllApiVersions(partManager);
             foreach (var version in versions)
             {
-                c.SwaggerEndpoint(string.Format($"/swagger/v{version}/swagger.json"), string.Format($"V{version} Docs"));
+                swaggerUiOptions.SwaggerEndpoint(string.Format($"/swagger/v{version}/swagger.json"), string.Format($"v{version} Docs"));
             }
         }
     }
