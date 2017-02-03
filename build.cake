@@ -10,7 +10,7 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var versionType = Argument("VersionType", "patch");
-var buildFolder = MakeAbsolute(Directory(Argument("buildFolder", "./build")));
+var buildFolder = MakeAbsolute(Directory(Argument("buildFolder", "./src/SwashbuckleAspNetVersioningShim/bin/Release")));
 var artifacts = MakeAbsolute(Directory(Argument("artifactPath", "./artifacts")));
 
 var versionInfo = GitVersion(new GitVersionSettings { UpdateAssemblyInfo = true });
@@ -109,7 +109,7 @@ Task("Package")
 																		new NuSpecDependency {Id="Swashbuckle.AspNetCore", Version="1.0.0-rc1"},
 																	  },
 									 Files					 = new [] {new NuSpecContent {Source = "**/SwashbuckleAspNetVersioningShim.dll", Target = "lib"}},
-									 BasePath                = "./src/SwashbuckleAspNetVersioningShim/bin/Release",
+									 BasePath                = buildFolder,
 									 OutputDirectory         = artifacts
 								 };
 
