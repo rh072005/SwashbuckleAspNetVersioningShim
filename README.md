@@ -16,6 +16,7 @@ Note: Development has been carried out with [URL path versioning](https://github
 
 ```csharp
 using SwashbuckleAspNetVersioningShim;
+using Microsoft.AspNetCore.Mvc.ApplicationParts;
 ```
 ```csharp
 public void ConfigureServices(IServiceCollection services)
