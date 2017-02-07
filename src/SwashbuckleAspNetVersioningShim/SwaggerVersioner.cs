@@ -22,8 +22,14 @@ namespace SwashbuckleAspNetVersioningShim
 
             swaggerOptions.DocInclusionPredicate((version, apiDescription) =>
             {
-                var versions = apiDescription.ControllerAttributes().OfType<ApiVersionAttribute>().SelectMany(attr => attr.Versions).ToList();
-                return versions.Any(v => $"v{v.ToString()}" == version);
+                var actionVersions = apiDescription.ActionAttributes().OfType<MapToApiVersionAttribute>().SelectMany(attr => attr.Versions).ToList();
+                var controllerVersions = apiDescription.ControllerAttributes().OfType<ApiVersionAttribute>().SelectMany(attr => attr.Versions).ToList();
+                var controllerAndActionVersionsOverlap = controllerVersions.Intersect(actionVersions).Any();
+                if(controllerAndActionVersionsOverlap)
+                {
+                    return false;
+                }
+                return controllerVersions.Any(v => $"v{v.ToString()}" == version);
             });
 
             swaggerOptions.OperationFilter<RemoveVersionParametersOperationFilter>();
