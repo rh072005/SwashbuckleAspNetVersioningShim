@@ -64,5 +64,25 @@ public class ValuesController : Controller
     ...
 ```
 
+## Note about MapToApiVersion
+When using ```MapToApiVersion``` ([example here](https://github.com/Microsoft/aspnet-api-versioning/wiki/Versioning-via-the-URL-Path#aspnet-core)) methods will be added for each ```ApiVersionAttribute``` specified on the controller. 
+In the example this results in ```Get()``` and ```GetV3()``` being added to the 2.0 and 3.0 Swagger document.
+To avoid this, which will cause an overload error in Swashbuckle, you will need to add explicitly add the ```MapToApiVersion``` attribute to both methods rather than letting ```Get()``` default.
+
+Referring again to the example it would look like this
+```csharp
+[ApiVersion("2.0")]
+[ApiVersion("3.0")]
+[Route("api/v{version:apiVersion}/helloworld")]
+public class HelloWorld2Controller : Controller
+{
+    [HttpGet, MapToApiVersion("2.0")]
+    public string Get() => "Hello world v2!";
+
+    [HttpGet, MapToApiVersion("3.0")]
+    public string GetV3() => "Hello world v3!";
+}
+```
+
 ## License
 See the [LICENSE](LICENSE) file for license rights and limitations (MIT).
