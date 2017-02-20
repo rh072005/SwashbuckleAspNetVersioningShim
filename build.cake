@@ -82,17 +82,25 @@ Task("Build")
 	.IsDependentOn("Restore")
 	.Does(() =>
 	{
-		Information("Running Build...");
+		Information("Running build...");
 		DotNetCoreBuild("./src/SwashbuckleAspNetVersioningShim.sln", new DotNetCoreBuildSettings {
 			Configuration = "Release"
 		});
 });
 
-Task("Package")
+Task("Test")
 	.IsDependentOn("Build")
 	.Does(() =>
 	{
-		Information("Running Packaging...");
+		Information("Running tests...");
+		DotNetCoreTest("./src/SwashbuckleAspNetVersioningShim.Tests/SwashbuckleAspNetVersioningShim.Tests.csproj");
+});
+
+Task("Package")
+	.IsDependentOn("Test")
+	.Does(() =>
+	{
+		Information("Running packaging...");
 		var nuGetPackSettings   = new NuGetPackSettings {
 									 Id                      = "SwashbuckleAspNetVersioningShim",
 									 Version                 = versionInfo.SemVer,
