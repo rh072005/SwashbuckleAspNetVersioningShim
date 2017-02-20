@@ -38,3 +38,5 @@ deploy:
       secure: xslJdZlEXsrdzucocErMW6yYuLA4rkFLpnrSHGS7AS0rHwvq5ZkxW4l28RVOJiwI
     on:
       appveyor_repo_tag: true
+
+test: off
