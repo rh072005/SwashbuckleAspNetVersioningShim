@@ -13,7 +13,6 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .UseApplicationInsights()
                 .Build();
 
             host.Run();
