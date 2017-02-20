@@ -11,7 +11,7 @@ Note: Development has been carried out with [URL path versioning](https://github
 - Install the SwashbuckleAspNetVersioningShim NuGet package
   - Short term this will be a case of building from source 
   - ~~Mid term it will be hosted on MyGet~~ Now available on [MyGet](https://www.myget.org/feed/rh072005/package/nuget/SwashbuckleAspNetVersioningShim)
-  - Long term it will be hosted on NuGet
+  - ~~Long term it will be hosted on NuGet~~ Now available on [NuGet](https://www.nuget.org/packages/SwashbuckleAspNetVersioningShim/)
 - Add the following code blocks to Startup.cs
 
 ```csharp
