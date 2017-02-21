@@ -109,6 +109,7 @@ Task("Package")
 									 Description             = "Library to aid the combined use of Swashbuckle and ASP NET API Versioning",
 									 ProjectUrl              = new Uri("https://github.com/rh072005/SwashbuckleAspNetVersioningShim"),
 									 Copyright               = "Ryan Hird 2017",
+									 Tags                    = new []{"Swashbuckle", "ASP.NET", "Versioning", "Shim", "WebAPI", "Swagger", "AspNetCore", "MVC"},
 									 RequireLicenseAcceptance= false,
 									 Symbols                 = false,
 									 NoPackageAnalysis       = true,
