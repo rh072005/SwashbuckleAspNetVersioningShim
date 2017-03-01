@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using Swashbuckle.AspNetCore.SwaggerUi;
+using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -47,12 +47,12 @@ namespace SwashbuckleAspNetVersioningShim
             return versionList;
         }
 
-        public static void ConfigureSwaggerUi(SwaggerUiOptions swaggerUiOptions, ApplicationPartManager partManager)
+        public static void ConfigureSwaggerUI(SwaggerUIOptions swaggerUIOptions, ApplicationPartManager partManager)
         {
             var versions = GetAllApiVersions(partManager);
             foreach (var version in versions)
             {
-                swaggerUiOptions.SwaggerEndpoint(string.Format($"/swagger/v{version}/swagger.json"), string.Format($"v{version} Docs"));
+                swaggerUIOptions.SwaggerEndpoint(string.Format($"/swagger/v{version}/swagger.json"), string.Format($"v{version} Docs"));
             }
         }
     }

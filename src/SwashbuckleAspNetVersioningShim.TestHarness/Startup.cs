@@ -42,9 +42,9 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness
 
             app.UseMvc();
             app.UseSwagger();
-            app.UseSwaggerUi(c =>
+            app.UseSwaggerUI(c =>
             {
-                SwaggerVersioner.ConfigureSwaggerUi(c, partManager);
+                SwaggerVersioner.ConfigureSwaggerUI(c, partManager);
             });
         }
     }
