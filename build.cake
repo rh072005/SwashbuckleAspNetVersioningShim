@@ -115,7 +115,7 @@ Task("Package")
 									 NoPackageAnalysis       = true,
 									 Dependencies            = new [] {
 																		new NuSpecDependency {Id="Microsoft.AspNetCore.Mvc.Versioning", Version="1.0.3"},
-																		new NuSpecDependency {Id="Swashbuckle.AspNetCore", Version="1.0.0-rc1"},
+																		new NuSpecDependency {Id="Swashbuckle.AspNetCore", Version="1.0.0-rc3"},
 																	  },
 									 Files					 = new [] {new NuSpecContent {Source = "**/SwashbuckleAspNetVersioningShim.dll", Target = "lib"}},
 									 BasePath                = buildFolder,
