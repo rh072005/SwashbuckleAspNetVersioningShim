@@ -17,7 +17,7 @@ namespace SwashbuckleAspNetVersioningShim
             var allVersions = GetAllApiVersions(partManager);
             foreach (var version in allVersions)
             {
-                swaggerOptions.SwaggerDoc(string.Format($"v{version}"), new Info { Version = version, Title = string.Format($"API Version {version}") });
+                swaggerOptions.SwaggerDoc($"v{version}", new Info { Version = version, Title = $"API Version {version}" });
             }
 
             swaggerOptions.DocInclusionPredicate((version, apiDescription) =>
@@ -52,7 +52,7 @@ namespace SwashbuckleAspNetVersioningShim
             var versions = GetAllApiVersions(partManager);
             foreach (var version in versions)
             {
-                swaggerUIOptions.SwaggerEndpoint(string.Format($"/swagger/v{version}/swagger.json"), string.Format($"v{version} Docs"));
+                swaggerUIOptions.SwaggerEndpoint($"/swagger/v{version}/swagger.json", $"v{version} Docs");
             }
         }
     }
