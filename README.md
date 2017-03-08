@@ -38,9 +38,9 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
 {
     ...
     app.UseSwagger();
-    app.UseSwaggerUi(c =>
+    app.UseSwaggerUI(c =>
     {
-        SwaggerVersioner.ConfigureSwaggerUi(c, partManager);
+        SwaggerVersioner.ConfigureSwaggerUI(c, partManager);
     });
     ...
 }

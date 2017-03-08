@@ -9,7 +9,7 @@ namespace SwashbuckleAspNetVersioningShim
         public void Apply(SwaggerDocument swaggerDoc, DocumentFilterContext context)
         {
             swaggerDoc.Paths = swaggerDoc.Paths.ToDictionary(
-                path => path.Key.Replace("v{version}", string.Format($"v{swaggerDoc.Info.Version}")),
+                path => path.Key.Replace("v{version}", $"v{swaggerDoc.Info.Version}"),
                 path => path.Value
                 );
         }
