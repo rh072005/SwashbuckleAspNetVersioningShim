@@ -8,7 +8,7 @@ namespace SwashbuckleAspNetVersioningShim
     {
         public void Apply(Operation operation, OperationFilterContext context)
         {
-            var versionParameter = operation.Parameters.Single(p => p.Name == "version");
+            var versionParameter = operation.Parameters.Single(p => p.Name == "version" && p.In == "path");
             operation.Parameters.Remove(versionParameter);
         }
     }

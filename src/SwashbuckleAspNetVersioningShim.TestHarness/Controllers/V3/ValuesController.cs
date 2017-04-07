@@ -7,7 +7,7 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness.Controllers.V3
     public class ValuesController : Controller
     {
         [HttpGet]
-        public string Get() => "version 3.0";
+        public string Get([FromQuery] int version) => "version 3.0";
 
         [HttpPost]
         public IActionResult Post([FromBody] string request)
