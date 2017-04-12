@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Swashbuckle.AspNetCore.Swagger;
@@ -12,7 +13,13 @@ namespace SwashbuckleAspNetVersioningShim
 {
     public static class SwaggerVersioner
     {
+        [Obsolete("Use ConfigureSwaggerVersions instead.")]
         public static void ConfigureSwaggerGen(SwaggerGenOptions swaggerOptions, ApplicationPartManager partManager)
+        {
+            swaggerOptions.ConfigureSwaggerVersions(partManager);
+        }
+
+        public static void ConfigureSwaggerVersions(this SwaggerGenOptions swaggerOptions, ApplicationPartManager partManager)
         {
             var allVersions = GetAllApiVersions(partManager);
             foreach (var version in allVersions)
@@ -36,7 +43,7 @@ namespace SwashbuckleAspNetVersioningShim
             swaggerOptions.DocumentFilter<SetVersionInPathsDocumentFilter>();
         }
 
-        public static List<string> GetAllApiVersions(ApplicationPartManager partManager)
+        public static List<string> GetAllApiVersions(this ApplicationPartManager partManager)
         {
             var controllerFeature = new ControllerFeature();
             partManager.PopulateFeature(controllerFeature);
@@ -47,7 +54,13 @@ namespace SwashbuckleAspNetVersioningShim
             return versionList;
         }
 
+        [Obsolete("Use ConfigureSwaggerVersions instead.")]
         public static void ConfigureSwaggerUI(SwaggerUIOptions swaggerUIOptions, ApplicationPartManager partManager)
+        {
+            swaggerUIOptions.ConfigureSwaggerVersions(partManager);
+        }
+
+        public static void ConfigureSwaggerVersions(this SwaggerUIOptions swaggerUIOptions, ApplicationPartManager partManager)
         {
             var versions = GetAllApiVersions(partManager);
             foreach (var version in versions)
