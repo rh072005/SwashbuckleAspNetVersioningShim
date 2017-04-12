@@ -16,15 +16,21 @@ namespace SwashbuckleAspNetVersioningShim
         [Obsolete("Use ConfigureSwaggerVersions instead.")]
         public static void ConfigureSwaggerGen(SwaggerGenOptions swaggerOptions, ApplicationPartManager partManager)
         {
-            swaggerOptions.ConfigureSwaggerVersions(partManager);
+            swaggerOptions.ConfigureSwaggerVersions(partManager, "API Version {0}");
         }
 
         public static void ConfigureSwaggerVersions(this SwaggerGenOptions swaggerOptions, ApplicationPartManager partManager)
         {
+            swaggerOptions.ConfigureSwaggerVersions(partManager, "API Version {0}");
+        }
+
+        public static void ConfigureSwaggerVersions(this SwaggerGenOptions swaggerOptions, ApplicationPartManager partManager, string titleFormat)
+        {
             var allVersions = GetAllApiVersions(partManager);
             foreach (var version in allVersions)
             {
-                swaggerOptions.SwaggerDoc($"v{version}", new Info { Version = version, Title = $"API Version {version}" });
+                var title = string.Format(titleFormat, version);
+                swaggerOptions.SwaggerDoc($"v{version}", new Info { Version = version, Title = title });
             }
 
             swaggerOptions.DocInclusionPredicate((version, apiDescription) =>
@@ -57,15 +63,22 @@ namespace SwashbuckleAspNetVersioningShim
         [Obsolete("Use ConfigureSwaggerVersions instead.")]
         public static void ConfigureSwaggerUI(SwaggerUIOptions swaggerUIOptions, ApplicationPartManager partManager)
         {
-            swaggerUIOptions.ConfigureSwaggerVersions(partManager);
+            swaggerUIOptions.ConfigureSwaggerVersions(partManager, new SwaggerVersionOptions());
         }
 
         public static void ConfigureSwaggerVersions(this SwaggerUIOptions swaggerUIOptions, ApplicationPartManager partManager)
         {
+            swaggerUIOptions.ConfigureSwaggerVersions(partManager, new SwaggerVersionOptions());
+        }
+
+        public static void ConfigureSwaggerVersions(this SwaggerUIOptions swaggerUIOptions, ApplicationPartManager partManager, SwaggerVersionOptions versionOptions)
+        {
             var versions = GetAllApiVersions(partManager);
             foreach (var version in versions)
             {
-                swaggerUIOptions.SwaggerEndpoint($"/swagger/v{version}/swagger.json", $"v{version} Docs");
+                var url = string.Format(versionOptions.RouteTemplate, version);
+                var description = string.Format(versionOptions.DescriptionTemplate, version);
+                swaggerUIOptions.SwaggerEndpoint(url, description);
             }
         }
     }
