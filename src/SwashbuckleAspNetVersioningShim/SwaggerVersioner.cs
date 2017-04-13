@@ -24,12 +24,12 @@ namespace SwashbuckleAspNetVersioningShim
             swaggerOptions.ConfigureSwaggerVersions(partManager, "API Version {0}");
         }
 
-        public static void ConfigureSwaggerVersions(this SwaggerGenOptions swaggerOptions, ApplicationPartManager partManager, string titleFormat)
+        public static void ConfigureSwaggerVersions(this SwaggerGenOptions swaggerOptions, ApplicationPartManager partManager, string titleTemplate)
         {
             var allVersions = GetAllApiVersions(partManager);
             foreach (var version in allVersions)
             {
-                var title = string.Format(titleFormat, version);
+                var title = string.Format(titleTemplate, version);
                 swaggerOptions.SwaggerDoc($"v{version}", new Info { Version = version, Title = title });
             }
 
