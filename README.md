@@ -8,10 +8,10 @@ Note: Development has been carried out with [URL path versioning](https://github
 ## Getting started
 
 - Start by creating a new ASP.NET Core Web Application
-- Install the SwashbuckleAspNetVersioningShim NuGet package
-  - Short term this will be a case of building from source 
-  - ~~Mid term it will be hosted on MyGet~~ Now available on [MyGet](https://www.myget.org/feed/rh072005/package/nuget/SwashbuckleAspNetVersioningShim)
-  - ~~Long term it will be hosted on NuGet~~ Now available on [NuGet](https://www.nuget.org/packages/SwashbuckleAspNetVersioningShim/)
+- Install the SwashbuckleAspNetVersioningShim NuGet package from
+  - Source or [Releases](https://github.com/rh072005/SwashbuckleAspNetVersioningShim/releases)
+  - [MyGet](https://www.myget.org/feed/rh072005/package/nuget/SwashbuckleAspNetVersioningShim)
+  - [NuGet](https://www.nuget.org/packages/SwashbuckleAspNetVersioningShim/)
 - Add the following code blocks to Startup.cs
 
 ```csharp
@@ -27,7 +27,7 @@ public void ConfigureServices(IServiceCollection services)
     services.AddApiVersioning();
     services.AddSwaggerGen(c =>
     {
-        SwaggerVersioner.ConfigureSwaggerGen(c, mvcBuilder.PartManager);
+        c.ConfigureSwaggerVersions(mvcBuilder.PartManager);
     });
     ...
 ```
@@ -40,7 +40,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        SwaggerVersioner.ConfigureSwaggerUI(c, partManager);
+        c.ConfigureSwaggerVersions(partManager);
     });
     ...
 }
@@ -63,6 +63,39 @@ public class ValuesController : Controller
     }
     ...
 ```
+
+## Configuring routes and templates
+If you want to configure the titles on the Swagger description page you can pass a title template to ```ConfigureSwaggerVersions``` inside ```ConfigureServices``` in your Startup file.
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    // This replaces services.AddMvc(); because we need access to IMvcBuilder's ApplicationPartManager below
+    var mvcBuilder = services.AddMvc();
+
+    services.AddApiVersioning();
+    services.AddSwaggerGen(c =>
+    {
+        c.ConfigureSwaggerVersions(mvcBuilder.PartManager, "Welcome to the docs for version {0} of my API");
+    });
+    ...
+```
+
+Similarly, if you want to change the text in the version drop down you can using the ```SwaggerVersionOptions``` object. This lets you set the ```DescriptionTemplate``` for the version selector and ```RouteTemplate``` to alter the route.
+
+```csharp
+//Note the change of method signature to include injection of ApplicationPartManager
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ApplicationPartManager partManager)
+{
+    ...
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        var versionOptions = new SwaggerVersionOptions { DescriptionTemplate = "Version {0} docs", RouteTemplate = "/swagger/v{0}/swagger.json" };
+        c.ConfigureSwaggerVersions(partManager, versionOptions);
+    });
+    ...
+}
+```  
 
 ## Note about MapToApiVersion
 When using ```MapToApiVersion``` ([example here](https://github.com/Microsoft/aspnet-api-versioning/wiki/Versioning-via-the-URL-Path#aspnet-core)) methods will be added for each ```ApiVersionAttribute``` specified on the controller. 

@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
 namespace SwashbuckleAspNetVersioningShim.TestHarness
 {
-    public class Startup
+    public class StartupStatic
     {
-        public Startup(IHostingEnvironment env)
+        public StartupStatic(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -30,7 +30,7 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness
             services.AddApiVersioning();
             services.AddSwaggerGen(c =>
             {
-                c.ConfigureSwaggerVersions(mvcBuilder.PartManager);
+                SwaggerVersioner.ConfigureSwaggerGen(c, mvcBuilder.PartManager);
             });
         }
 
@@ -44,7 +44,7 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.ConfigureSwaggerVersions(partManager);
+                SwaggerVersioner.ConfigureSwaggerUI(c, partManager);
             });
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using SwashbuckleAspNetVersioningShim.TestHarness;
 
@@ -10,9 +11,9 @@ namespace SwashbuckleAspNetVersioningShim.Tests.Fixtures
     {
         public dynamic SwaggerDocument { get; private set; }
 
-        public ApiVersionFixtureBase(string swaggerUrl)
+        public ApiVersionFixtureBase(Type startupClassType, string swaggerUrl)
         {
-            var testServer = new TestServer(new WebHostBuilder().UseStartup<Startup>());
+            var testServer = new TestServer(new WebHostBuilder().UseStartup(startupClassType));
             var httpClient = testServer.CreateClient();
             var response = httpClient.GetAsync(swaggerUrl).Result;
             response.EnsureSuccessStatusCode();

@@ -1,8 +1,10 @@
-﻿namespace SwashbuckleAspNetVersioningShim.Tests.Fixtures
+﻿using SwashbuckleAspNetVersioningShim.TestHarness;
+
+namespace SwashbuckleAspNetVersioningShim.Tests.Fixtures
 {
     public class ApiVersionThreeFixture : ApiVersionFixtureBase
     {
-        public ApiVersionThreeFixture() : base("swagger/v3.0/swagger.json")
+        public ApiVersionThreeFixture() : base(typeof(Startup), "swagger/v3.0/swagger.json")
         {
         }
     }

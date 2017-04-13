@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
 namespace SwashbuckleAspNetVersioningShim.TestHarness
 {
-    public class Startup
+    public class StartupCustomRoutesAndDocs
     {
-        public Startup(IHostingEnvironment env)
+        public StartupCustomRoutesAndDocs(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -30,7 +30,7 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness
             services.AddApiVersioning();
             services.AddSwaggerGen(c =>
             {
-                c.ConfigureSwaggerVersions(mvcBuilder.PartManager);
+                c.ConfigureSwaggerVersions(mvcBuilder.PartManager, "Welcome to the documentation for version {0} of my API");
             });
         }
 
@@ -44,7 +44,8 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.ConfigureSwaggerVersions(partManager);
+                var versionOptions = new SwaggerVersionOptions { DescriptionTemplate = "Version {0} docs", RouteTemplate = "/swagger/v{0}/swagger.json" };
+                c.ConfigureSwaggerVersions(partManager, versionOptions);
             });
         }
     }
