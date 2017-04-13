@@ -30,7 +30,7 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness
             services.AddApiVersioning();
             services.AddSwaggerGen(c =>
             {
-                SwaggerVersioner.ConfigureSwaggerGen(c, mvcBuilder.PartManager);
+                c.ConfigureSwaggerVersions(mvcBuilder.PartManager);
             });
         }
 
@@ -44,7 +44,7 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                SwaggerVersioner.ConfigureSwaggerUI(c, partManager);
+                c.ConfigureSwaggerVersions(partManager);
             });
         }
     }
