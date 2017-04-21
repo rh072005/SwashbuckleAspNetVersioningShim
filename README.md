@@ -115,7 +115,7 @@ public class HelloWorld2Controller : Controller
 ```
 
 ## Using querystring versions
-As of version 0.6.0-pre and thanks to [Microsoft.AspNetCore.Mvc.Versioning](https://www.nuget.org/packages/Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer), querystring versioned APIs are now supported.
+As of version 1.0.0-beta.1 and thanks to [Microsoft.AspNetCore.Mvc.Versioning](https://www.nuget.org/packages/Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer), querystring versioned APIs are now supported.
 
 In a controller where no API version is specified a new parameter will be added to Swagger and will default to the API version you are browsing. 
 
