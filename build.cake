@@ -71,7 +71,7 @@ Task("Package")
 		Information("Running packaging...");
 		var nuGetPackSettings   = new NuGetPackSettings {
 									 Id                      = "SwashbuckleAspNetVersioningShim",
-									 Version                 = versionInfo.SemVer,
+									 Version                 = versionInfo.LegacySemVer,
 									 Title                   = "Swashbuckle ASP.NET Versioning Shim",
 									 Authors                 = new[] {"Ryan Hird"},
 									 Description             = "Library to aid the combined use of Swashbuckle and ASP NET API Versioning",
