@@ -3,8 +3,6 @@
 
 This library aids the use of [Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore) and [ASP NET Web API Versioning](https://github.com/Microsoft/aspnet-api-versioning) together and started from my attempt at resolving [Swashbuckle.AspNetCore issue 244](https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/244)
 
-Note: Development has been carried out with [URL path versioning](https://github.com/Microsoft/aspnet-api-versioning/wiki/Versioning-via-the-URL-Path) in mind. I've not tested it with the other versioning conventions that API versioning provide.
-
 ## Getting started
 
 - Start by creating a new ASP.NET Core Web Application
@@ -15,32 +13,30 @@ Note: Development has been carried out with [URL path versioning](https://github
 - Add the following code blocks to Startup.cs
 
 ```csharp
-using SwashbuckleAspNetVersioningShim;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 ```
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-    // This replaces services.AddMvc(); because we need access to IMvcBuilder's ApplicationPartManager below
-    var mvcBuilder = services.AddMvc();
-
+    services.AddMvc();
+    services.AddMvcCore().AddVersionedApiExplorer();
     services.AddApiVersioning();
-    services.AddSwaggerGen(c =>
-    {
-        c.ConfigureSwaggerVersions(mvcBuilder.PartManager);
+    services.AddSwaggerGen(c => {
+        var provider = services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
+        c.ConfigureSwaggerVersions(provider);
     });
     ...
 ```
 
 ```csharp
-//Note the change of method signature to include injection of ApplicationPartManager
-public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ApplicationPartManager partManager)
+//Note the change of method signature to include injection of IApiVersionDescriptionProvider
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
 {
     ...
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.ConfigureSwaggerVersions(partManager);
+        c.ConfigureSwaggerVersions(provider);
     });
     ...
 }
@@ -52,7 +48,7 @@ Using the default ValueController that's created with a new Web API project it w
 
 ```csharp
 [ApiVersion("1.0")]
-[Route("api/v{version:apiVersion}/[controller]")]
+[Route("api/v{api-version:apiVersion}/[controller]")]
 public class ValuesController : Controller
 {
     // GET api/values
@@ -69,13 +65,12 @@ If you want to configure the titles on the Swagger description page you can pass
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
-    // This replaces services.AddMvc(); because we need access to IMvcBuilder's ApplicationPartManager below
-    var mvcBuilder = services.AddMvc();
-
+    services.AddMvc();
+    services.AddMvcCore().AddVersionedApiExplorer();
     services.AddApiVersioning();
-    services.AddSwaggerGen(c =>
-    {
-        c.ConfigureSwaggerVersions(mvcBuilder.PartManager, "Welcome to the docs for version {0} of my API");
+    services.AddSwaggerGen(c => {
+        var provider = services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
+        c.ConfigureSwaggerVersions(provider, "Welcome to the documentation for version {0} of my API");
     });
     ...
 ```
@@ -83,15 +78,17 @@ public void ConfigureServices(IServiceCollection services)
 Similarly, if you want to change the text in the version drop down you can using the ```SwaggerVersionOptions``` object. This lets you set the ```DescriptionTemplate``` for the version selector and ```RouteTemplate``` to alter the route.
 
 ```csharp
-//Note the change of method signature to include injection of ApplicationPartManager
-public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ApplicationPartManager partManager)
+//Note the change of method signature to include injection of IApiVersionDescriptionProvider
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
 {
     ...
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        var versionOptions = new SwaggerVersionOptions { DescriptionTemplate = "Version {0} docs", RouteTemplate = "/swagger/v{0}/swagger.json" };
-        c.ConfigureSwaggerVersions(partManager, versionOptions);
+        c.ConfigureSwaggerVersions(provider, new SwaggerVersionOptions
+        {
+            DescriptionTemplate = "Vesion {0} docs", RouteTemplate = "/swagger/{0}/swagger.json"
+        });
     });
     ...
 }
@@ -116,6 +113,29 @@ public class HelloWorld2Controller : Controller
     public string GetV3() => "Hello world v3!";
 }
 ```
+
+## Using querystring versions
+As of version 0.6.0-pre and thanks to [Microsoft.AspNetCore.Mvc.Versioning](https://www.nuget.org/packages/Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer), querystring versioned APIs are now supported.
+
+In a controller where no API version is specified a new parameter will be added to Swagger and will default to the API version you are browsing. 
+
+So this controller
+```csharp
+[ApiVersion("1.0")]
+[Route("api/[controller]")]
+public class ValuesController : Controller
+{
+    // GET api/values
+    [HttpGet]
+    public IEnumerable<string> Get()
+    {
+        return new string[] { "value1", "value2" };
+    }
+}
+```
+will look like this
+
+![Querystring Parameter Example](art/querystringParam.png)
 
 ## License
 See the [LICENSE](LICENSE) file for license rights and limitations (MIT).

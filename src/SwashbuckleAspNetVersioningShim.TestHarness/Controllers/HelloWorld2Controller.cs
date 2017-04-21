@@ -4,7 +4,7 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness.Controllers
 {
     [ApiVersion("2.0")]
     [ApiVersion("3.0")]
-    [Route("api/v{version:apiVersion}/helloworld")]
+    [Route("api/v{api-version:apiVersion}/helloworld")]
     public class HelloWorld2Controller : Controller
     {
         [HttpGet, MapToApiVersion("2.0")]

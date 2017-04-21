@@ -3,7 +3,7 @@
 namespace SwashbuckleAspNetVersioningShim.TestHarness.Controllers.V1
 {
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/[controller]")]
+    [Route("api/v{api-version:apiVersion}/[controller]")]
     public class ValuesController : Controller
     {
         [HttpGet]

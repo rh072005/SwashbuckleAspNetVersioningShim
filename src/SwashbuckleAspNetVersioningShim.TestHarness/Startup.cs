@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace SwashbuckleAspNetVersioningShim.TestHarness
 {
@@ -25,17 +25,17 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            var mvcBuilder = services.AddMvc();
-
+            services.AddMvc();
+            services.AddMvcCore().AddVersionedApiExplorer();
             services.AddApiVersioning();
-            services.AddSwaggerGen(c =>
-            {
-                c.ConfigureSwaggerVersions(mvcBuilder.PartManager);
+            services.AddSwaggerGen(c => {
+                var provider = services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
+                c.ConfigureSwaggerVersions(provider);
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ApplicationPartManager partManager)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -44,7 +44,7 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.ConfigureSwaggerVersions(partManager);
+                c.ConfigureSwaggerVersions(provider);
             });
         }
     }

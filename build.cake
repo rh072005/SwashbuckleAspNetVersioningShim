@@ -9,7 +9,6 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
-var versionType = Argument("VersionType", "patch");
 var buildFolder = MakeAbsolute(Directory(Argument("buildFolder", "./src/SwashbuckleAspNetVersioningShim/bin/Release")));
 var artifacts = MakeAbsolute(Directory(Argument("artifactPath", "./artifacts")));
 
@@ -29,37 +28,6 @@ Teardown(ctx =>
 	// Executed AFTER the last task.
 	Information("Finished running tasks.");
 });
-
-///////////////////////////////////////////////////////////////////////////////
-// SYSTEM TASKS
-///////////////////////////////////////////////////////////////////////////////
-Task("Version")
-	.Does(() =>
-	{
-		var semVersion = "";
-		int major = 0;
-		int minor = 1;
-		int patch = 0;
-		GitVersion assertedVersions = GitVersion(new GitVersionSettings
-		{
-			OutputType = GitVersionOutput.Json,
-		});
-		major = assertedVersions.Major;
-		minor = assertedVersions.Minor;
-		patch = assertedVersions.Patch;
-		switch (versionType.ToLower())
-		{
-			case "patch":
-				patch += 1; break;
-			case "minor":
-				minor += 1; patch = 0; break;
-			case "major":
-				major += 1;	minor = 0; patch = 0; break;			
-		};
-		semVersion = string.Format("{0}.{1}.{2}", major, minor, patch);
-		GitTag(".", semVersion);
-		Information("Changing version: {0} to {1}", assertedVersions.LegacySemVerPadded, semVersion);
-	});
 	
 ///////////////////////////////////////////////////////////////////////////////
 // USER TASKS
@@ -114,8 +82,8 @@ Task("Package")
 									 Symbols                 = false,
 									 NoPackageAnalysis       = true,
 									 Dependencies            = new [] {
-																		new NuSpecDependency {Id="Microsoft.AspNetCore.Mvc.Versioning", Version="1.1.0-beta1"},
-																		new NuSpecDependency {Id="Swashbuckle.AspNetCore", Version="1.0.0-rc3"},
+																		new NuSpecDependency {Id="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer", Version="1.0.0-beta1"},
+																		new NuSpecDependency {Id="Swashbuckle.AspNetCore", Version="1.0.0"},
 																	  },
 									 Files					 = new [] {new NuSpecContent {Source = "**/SwashbuckleAspNetVersioningShim.dll", Target = "lib"}},
 									 BasePath                = buildFolder,

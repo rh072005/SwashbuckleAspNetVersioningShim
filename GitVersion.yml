@@ -1,5 +1,0 @@
-branches:
-    master:
-        mode: ContinuousDelivery
-        tag: pre
-        increment: Patch
