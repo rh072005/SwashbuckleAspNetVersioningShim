@@ -11,16 +11,13 @@ cache:
 build_script: 
   - ps: .\build.ps1
 
-after_build:
-  - ps: $env:ARTIFACT_NAME = if($env:APPVEYOR_REPO_TAG_NAME){$env:APPVEYOR_REPO_TAG_NAME} else {"$($env:APPVEYOR_REPO_COMMIT)-pre"}
-
 artifacts: 
   - path: artifacts\*
-    name: SwashbuckleAspNetVersioningShim_%ARTIFACT_NAME%
+    name: SwashbuckleAspNetVersioningShim
 
 deploy:
   - provider: GitHub
-    description: Release of SwashbuckleAspNetVersioningShim version %ARTIFACT_NAME%
+    description: Release of SwashbuckleAspNetVersioningShim
     auth_token:
       secure: 5lhtYmrK8GyagLOZFAIKcCnLrYU62nz3nYYwdb4xWobiTmZ92qfAn3+7g+kmasCf
     artifact: /.*\.nupkg/
