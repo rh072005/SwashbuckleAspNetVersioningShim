@@ -33,6 +33,8 @@ public void ConfigureServices(IServiceCollection services)
 public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
 {
     ...
+    app.UseMvc();
+    app.UseApiVersioning();
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
@@ -82,6 +84,8 @@ Similarly, if you want to change the text in the version drop down you can using
 public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
 {
     ...
+    app.UseMvc();
+    app.UseApiVersioning();
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
