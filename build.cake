@@ -82,7 +82,7 @@ Task("Package")
 									 Symbols                 = false,
 									 NoPackageAnalysis       = true,
 									 Dependencies            = new [] {
-																		new NuSpecDependency {Id="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer", Version="1.0.0-beta1"},
+																		new NuSpecDependency {Id="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer", Version="1.0.0-rc1"},
 																		new NuSpecDependency {Id="Swashbuckle.AspNetCore", Version="1.0.0"},
 																	  },
 									 Files					 = new [] {new NuSpecContent {Source = "**/SwashbuckleAspNetVersioningShim.dll", Target = "lib"}},
