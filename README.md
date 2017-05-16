@@ -14,6 +14,7 @@ This library aids the use of [Swashbuckle](https://github.com/domaindrivendev/Sw
 
 ```csharp
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using SwashbuckleAspNetVersioningShim;
 ```
 ```csharp
 public void ConfigureServices(IServiceCollection services)
