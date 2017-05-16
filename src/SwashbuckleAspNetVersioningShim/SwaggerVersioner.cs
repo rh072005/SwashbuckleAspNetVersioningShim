@@ -17,9 +17,10 @@ namespace SwashbuckleAspNetVersioningShim
             foreach (var description in provider.ApiVersionDescriptions)
             {
                 var title = string.Format(titleTemplate, description.ApiVersion);
-                swaggerOptions.SwaggerDoc(description.GroupName, new Info { Version = description.ApiVersion.ToString(), Title = title });
+                swaggerOptions.SwaggerDoc(description.GroupName, new Info { Version = description.ApiVersion.ToString(), Title = title });                
             }
 
+            swaggerOptions.OperationFilter<CorrectOperationIdsOperationFilter>();
             swaggerOptions.OperationFilter<RemoveVersionParametersOperationFilter>();
             swaggerOptions.DocumentFilter<SetVersionInPathsDocumentFilter>();
         }

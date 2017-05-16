@@ -68,6 +68,15 @@ namespace SwashbuckleAspNetVersioningShim.Tests
         }
 
         [Fact]
+        public void HelloWorldGetMethodsOperationIdShouldBeApiHelloWorldGet()
+        {
+            var helloWorldPathKey = _fixture?.SwaggerDocument?.paths?["/api/v3.0/helloworld"];
+            ((object)helloWorldPathKey).Should().NotBeNull("there should be hello world path");
+            ((object)helloWorldPathKey?.get).Should().NotBeNull("this should support get");
+            ((object)helloWorldPathKey?.get?.operationid).ToString().Should().Be("apihelloworldget");
+        }
+
+        [Fact]
         public void SwaggerDocumentShouldContainValuesPath()
         {
             var valuesPathKey = _fixture?.SwaggerDocument?.paths?["/api/v3.0/values"];
@@ -112,6 +121,24 @@ namespace SwashbuckleAspNetVersioningShim.Tests
             var valuesPathKey = _fixture?.SwaggerDocument?.paths?["/api/v3.0/values"];
             ((object)valuesPathKey).Should().NotBeNull("there should be values path");
             ((object)valuesPathKey?.put).Should().BeNull("this method only supports get");
+        }
+
+        [Fact]
+        public void ValuesGetMethodsOperationIdShouldBeApiValuesGet()
+        {
+            var valuesPathKey = _fixture?.SwaggerDocument?.paths?["/api/v3.0/values"];
+            ((object)valuesPathKey).Should().NotBeNull("there should be values path");
+            ((object)valuesPathKey?.get).Should().NotBeNull("this should support get");
+            ((object)valuesPathKey?.get?.operationid).ToString().Should().Be("apivaluesget");
+        }
+
+        [Fact]
+        public void ValuesGetMethodsOperationIdShouldBeApiValuesPost()
+        {
+            var valuesPathKey = _fixture?.SwaggerDocument?.paths?["/api/v3.0/values"];
+            ((object)valuesPathKey).Should().NotBeNull("there should be values path");
+            ((object)valuesPathKey?.post).Should().NotBeNull("this should support get");
+            ((object)valuesPathKey?.post?.operationid).ToString().Should().Be("apivaluespost");
         }
     }
 }

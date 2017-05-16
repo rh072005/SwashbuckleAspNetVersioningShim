@@ -8,5 +8,8 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness.Controllers.V1
     {
         [HttpGet]
         public string Get() => "version 1.0";
+
+        [HttpGet("{id}")]
+        public string Get(int id) => $"called with id {id}";
     }
 }

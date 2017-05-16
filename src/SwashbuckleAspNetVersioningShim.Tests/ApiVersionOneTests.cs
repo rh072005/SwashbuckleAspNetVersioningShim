@@ -68,6 +68,15 @@ namespace SwashbuckleAspNetVersioningShim.Tests
         }
 
         [Fact]
+        public void HelloWorldGetMethodsOperationIdShouldBeApiHelloWorldGet()
+        {
+            var helloWorldPathKey = _fixture?.SwaggerDocument?.paths?["/api/v1.0/helloworld"];
+            ((object)helloWorldPathKey).Should().NotBeNull("there should be hello world path");
+            ((object)helloWorldPathKey?.get).Should().NotBeNull("this should support get");
+            ((object)helloWorldPathKey?.get?.operationid).ToString().Should().Be("apihelloworldget");
+        }
+
+        [Fact]
         public void SwaggerDocumentShouldContainValuesPath()
         {
             var valuesPathKey = _fixture?.SwaggerDocument?.paths?["/api/v1.0/values"];
@@ -80,6 +89,14 @@ namespace SwashbuckleAspNetVersioningShim.Tests
             var valuesPathKey = _fixture?.SwaggerDocument?.paths?["/api/v1.0/values"];
             ((object)valuesPathKey).Should().NotBeNull("there should be values path");
             ((object)valuesPathKey?.get).Should().NotBeNull("this should support get");
+        }
+
+        [Fact]
+        public void ValuesPathShouldHaveGetByIdMethod()
+        {
+            var valuesByIdPathKey = _fixture?.SwaggerDocument?.paths?["/api/v1.0/values/{id}"];
+            ((object)valuesByIdPathKey).Should().NotBeNull("there should be get values by id path");
+            ((object)valuesByIdPathKey?.get).Should().NotBeNull("this should support get with id");
         }
 
         [Fact]
@@ -112,6 +129,24 @@ namespace SwashbuckleAspNetVersioningShim.Tests
             var valuesPathKey = _fixture?.SwaggerDocument?.paths?["/api/v1.0/values"];
             ((object)valuesPathKey).Should().NotBeNull("there should be values path");
             ((object)valuesPathKey?.put).Should().BeNull("this method only supports get");
+        }
+
+        [Fact]
+        public void ValuesGetMethodsOperationIdShouldBeApiValuesGet()
+        {
+            var valuesPathKey = _fixture?.SwaggerDocument?.paths?["/api/v1.0/values"];
+            ((object)valuesPathKey).Should().NotBeNull("there should be values path");
+            ((object)valuesPathKey?.get).Should().NotBeNull("this should support get");
+            ((object)valuesPathKey?.get?.operationid).ToString().Should().Be("apivaluesget");
+        }
+
+        [Fact]
+        public void ValuesGetByIdMethodsOperationIdShouldBeApiValuesByIdGet()
+        {
+            var valuesPathKey = _fixture?.SwaggerDocument?.paths?["/api/v1.0/values/{id}"];
+            ((object)valuesPathKey).Should().NotBeNull("there should be values path");
+            ((object)valuesPathKey?.get).Should().NotBeNull("this should support get");
+            ((object)valuesPathKey?.get?.operationid).ToString().Should().Be("apivaluesbyidget");
         }
     }
 }

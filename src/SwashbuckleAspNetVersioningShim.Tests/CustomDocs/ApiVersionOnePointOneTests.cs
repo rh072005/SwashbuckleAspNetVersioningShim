@@ -75,11 +75,20 @@ namespace SwashbuckleAspNetVersioningShim.Tests.CustomDocs
         }
 
         [Fact]
+        public void ValuesGetMethodsOperationIdShouldBeApiValuesGet()
+        {
+            var valuesPathKey = _fixture?.SwaggerDocument?.paths?["/api/v1.1/values"];
+            ((object)valuesPathKey).Should().NotBeNull("there should be values path");
+            ((object)valuesPathKey?.get).Should().NotBeNull("this should support get");
+            ((object)valuesPathKey?.get?.operationid).ToString().Should().Be("apivaluesget");
+        }
+
+        [Fact]
         public void SwaggerDocumentTitleShouldMatchConfiguredValue()
         {
             string documentTitle = _fixture?.SwaggerDocument?.info?.title;
             documentTitle.Should().NotBeNull("there should be a document title");
             documentTitle.Should().Be("welcome to the documentation for version 1.1 of my api", "because that's what's specified in the Swagger versioning configuration");
-        }
+        }        
     }
 }

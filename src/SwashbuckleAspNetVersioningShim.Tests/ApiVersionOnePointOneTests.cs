@@ -73,5 +73,14 @@ namespace SwashbuckleAspNetVersioningShim.Tests
             ((object)valuesPathKey).Should().NotBeNull("there should be values path");
             ((object)valuesPathKey?.put).Should().BeNull("this method only supports get");
         }
+
+        [Fact]
+        public void ValuesGetMethodsOperationIdShouldBeApiValuesGet()
+        {
+            var valuesPathKey = _fixture?.SwaggerDocument?.paths?["/api/v1.1/values"];
+            ((object)valuesPathKey).Should().NotBeNull("there should be values path");
+            ((object)valuesPathKey?.get).Should().NotBeNull("this should support get");
+            ((object)valuesPathKey?.get?.operationid).ToString().Should().Be("apivaluesget");
+        }
     }
 }
