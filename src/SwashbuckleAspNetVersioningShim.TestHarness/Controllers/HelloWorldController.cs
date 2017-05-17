@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace SwashbuckleAspNetVersioningShim.TestHarness.Controllers
 {
@@ -8,5 +9,9 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness.Controllers
     {
         [HttpGet]
         public string Get() => "Hello world!";
+
+        [HttpGet("{id}")]
+        [SwaggerOperation("HelloWorldCustomOperationName")]
+        public string GetCustom(int id) => "Hello custom world!";
     }    
 }

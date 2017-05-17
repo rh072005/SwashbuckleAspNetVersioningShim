@@ -7,10 +7,13 @@ namespace SwashbuckleAspNetVersioningShim
     {
         public void Apply(Operation operation, OperationFilterContext context)
         {
-            var operationId = context?.ApiDescription?.FriendlyId();
-            if (operationId != null)
+            if (operation.OperationId.ToLower().Contains("v{api-version"))
             {
-                operation.OperationId = operationId;
+                var operationId = context?.ApiDescription?.FriendlyId();
+                if (operationId != null)
+                {
+                    operation.OperationId = operationId;
+                }
             }
         }
     }

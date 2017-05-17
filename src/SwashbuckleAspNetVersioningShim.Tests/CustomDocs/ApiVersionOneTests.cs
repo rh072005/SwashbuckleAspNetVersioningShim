@@ -77,6 +77,15 @@ namespace SwashbuckleAspNetVersioningShim.Tests.CustomDocs
         }
 
         [Fact]
+        public void HelloWorldGetCustomMethodsOperationIdShouldBeHelloWorldCustomOperationName()
+        {
+            var helloWorldPathKey = _fixture?.SwaggerDocument?.paths?["/api/v1.0/helloworld/{id}"];
+            ((object)helloWorldPathKey).Should().NotBeNull("there should be get hello world by id path");
+            ((object)helloWorldPathKey?.get).Should().NotBeNull("this should support get");
+            ((object)helloWorldPathKey?.get?.operationid).ToString().Should().Be("helloworldcustomoperationname");
+        }
+
+        [Fact]
         public void SwaggerDocumentShouldContainValuesPath()
         {
             var valuesPathKey = _fixture?.SwaggerDocument?.paths?["/api/v1.0/values"];
