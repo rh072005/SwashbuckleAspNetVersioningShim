@@ -11,6 +11,9 @@ cache:
 build_script: 
   - ps: .\build.ps1
 
+after_build:
+  - ps: $env:IS_PRERELEASE = if($env:APPVEYOR_REPO_TAG_NAME -and $env:APPVEYOR_REPO_TAG_NAME.split('-')[1].length -gt 0){$true}else{$false}
+
 artifacts: 
   - path: artifacts\*
     name: SwashbuckleAspNetVersioningShim
@@ -22,7 +25,7 @@ deploy:
       secure: 5lhtYmrK8GyagLOZFAIKcCnLrYU62nz3nYYwdb4xWobiTmZ92qfAn3+7g+kmasCf
     artifact: /.*\.nupkg/
     draft: false
-    prerelease: true
+    prerelease: $(IS_PRERELEASE)
     on:
       branch: master
       appveyor_repo_tag: true
