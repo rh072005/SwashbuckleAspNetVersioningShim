@@ -34,8 +34,7 @@ public void ConfigureServices(IServiceCollection services)
 public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
 {
     ...
-    app.UseMvc();
-    app.UseApiVersioning();
+    app.UseMvc();    
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
