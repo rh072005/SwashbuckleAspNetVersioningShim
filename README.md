@@ -31,7 +31,7 @@ public void ConfigureServices(IServiceCollection services)
 
 ```csharp
 //Note the change of method signature to include injection of IApiVersionDescriptionProvider
-public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApiVersionDescriptionProvider provider)
 {
     ...
     app.UseMvc();    
