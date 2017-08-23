@@ -81,7 +81,7 @@ Similarly, if you want to change the text in the version drop down you can using
 
 ```csharp
 //Note the change of method signature to include injection of IApiVersionDescriptionProvider
-public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IApiVersionDescriptionProvider provider)
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApiVersionDescriptionProvider provider)
 {
     ...
     app.UseMvc();
