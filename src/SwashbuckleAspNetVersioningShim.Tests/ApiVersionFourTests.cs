@@ -81,6 +81,16 @@ namespace SwashbuckleAspNetVersioningShim.Tests
         {
             var valuesPathKey = _fixture?.SwaggerDocument?.paths?["/api/v4.0/values"];
             ((object)valuesPathKey).Should().BeNull("there should not be a version in the values path");
-        }        
+        }
+
+        [Fact]
+        public void ValuesPathGetShouldHaveTwoParameters()
+        {
+            var valuesPathKey = _fixture?.SwaggerDocument?.paths?["/api/values"];
+            ((object)valuesPathKey).Should().NotBeNull("there should be values path");
+            ((object)valuesPathKey?.get).Should().NotBeNull("this should support get");
+            ((object)valuesPathKey?.get?.operationid).ToString().Should().Be("apivaluesget");
+            ((object)valuesPathKey?.get?.parameters?.Count).Should().Be(2, "there should be 2 parameters, one for the api-version and the randomId to represent another parameter");
+        }
     }
 }

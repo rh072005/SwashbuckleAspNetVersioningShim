@@ -7,6 +7,6 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness.Controllers.V4
     public class ValuesController : Controller
     {
         [HttpGet]
-        public string Get([FromQuery] int version) => "version 4.0";
+        public string Get([FromQuery] int randomId) => "version 4.0";
     }
 }
