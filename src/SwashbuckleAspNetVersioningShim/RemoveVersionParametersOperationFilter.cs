@@ -20,17 +20,19 @@ namespace SwashbuckleAspNetVersioningShim
                 }
                 else
                 {
-                    var parameters = new List<IParameter> {
-                        new NonBodyParameter()
-                        {
-                            Name = "api-version",
-                            Required = true,
-                            Default = apiVersion.ToString(),
-                            In = "query",
-                            Type = "string"
-                        }
-                    };
-                    operation.Parameters = parameters;
+                    var versionParameterInQuery = operation?.Parameters?.SingleOrDefault(p => p.Name == "api-version" && p.In == "query");
+                    if (versionParameterInQuery != null)
+                    {
+                        operation.Parameters.Remove(versionParameterInQuery);
+                    }
+                    operation?.Parameters?.Add(new NonBodyParameter()
+                    {
+                        Name = "api-version",
+                        Required = true,
+                        Default = apiVersion.ToString(),
+                        In = "query",
+                        Type = "string"
+                    });
                 }
             }
         }
