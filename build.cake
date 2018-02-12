@@ -40,14 +40,8 @@ Task("Clean")
 		CleanDirectory(buildFolder);
 	});
 	
-Task("Restore")
-	.IsDependentOn("Clean").Does(() =>
-	{
-		DotNetCoreRestore("./src/SwashbuckleAspNetVersioningShim.sln");
-	});
-	
 Task("Build")
-	.IsDependentOn("Restore")
+	.IsDependentOn("Clean")
 	.Does(() =>
 	{
 		Information("Running build...");
