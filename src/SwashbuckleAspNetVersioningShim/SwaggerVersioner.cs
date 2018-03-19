@@ -2,6 +2,7 @@
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.AspNetCore.Builder;
 
 namespace SwashbuckleAspNetVersioningShim
 {
