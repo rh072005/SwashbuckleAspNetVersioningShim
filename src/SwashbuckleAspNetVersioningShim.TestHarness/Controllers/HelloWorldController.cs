@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace SwashbuckleAspNetVersioningShim.TestHarness.Controllers
 {
@@ -11,7 +11,7 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness.Controllers
         public string Get() => "Hello world!";
 
         [HttpGet("{id}")]
-        [SwaggerOperation("HelloWorldCustomOperationName")]
+        [SwaggerOperation(OperationId = "HelloWorldCustomOperationName")]
         public string GetCustom(int id) => "Hello custom world!";
     }    
 }

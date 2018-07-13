@@ -31,6 +31,7 @@ namespace SwashbuckleAspNetVersioningShim.TestHarness
             services.AddSwaggerGen(c => {
                 var provider = services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
                 c.ConfigureSwaggerVersions(provider, "Welcome to the documentation for version {0} of my API");
+                c.EnableAnnotations();
             });
         }
 
