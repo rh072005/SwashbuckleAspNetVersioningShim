@@ -1,3 +1,7 @@
+| :warning: Future upgrades |
+|---|
+| Before using this library I would advise looking at [this example](https://github.com/Microsoft/aspnet-api-versioning/tree/master/samples/aspnetcore/SwaggerSample) first. If you still have a need for this library after this please add your comments to [Issue #15](https://github.com/rh072005/SwashbuckleAspNetVersioningShim/issues/15).|
+
 # Swashbuckle ASP.NET Versioning Shim
 [![Build status](https://ci.appveyor.com/api/projects/status/wjwi5jpn7oov6i96?svg=true)](https://ci.appveyor.com/project/rh072005/swashbuckleaspnetversioningshim)
 
